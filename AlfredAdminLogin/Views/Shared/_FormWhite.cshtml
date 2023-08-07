@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
+    @*在模板的头部，有一些meta标签用于指定页面的编码方式、渲染引擎和缩放设置。然后，使用了@await Html.PartialAsync("_Form.cshtml")来引入名为"_Form.cshtml"(这个引入库)的视图。*@
     @await Html.PartialAsync("_Form.cshtml")
 
+    @*接着，有一个<script>标签用于定义一个JavaScript变量ctx，它存储了一个URL路径字符串。*@
     @RenderSection("header", false)
     <script type="text/javascript">
         var ctx = '@Url.Content("~/")';

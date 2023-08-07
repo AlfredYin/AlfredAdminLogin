@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Alfred.Business.AutoJob\Alfred.Business.AutoJob.csproj" />
+    <ProjectReference Include="..\Alfred.Business\Alfred.Business.csproj" />
+    <ProjectReference Include="..\Alfred.Util\Alfred.Util.csproj" />
+  </ItemGroup>
+
+</Project>

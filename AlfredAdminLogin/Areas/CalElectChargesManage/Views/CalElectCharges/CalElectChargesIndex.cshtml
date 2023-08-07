@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+@section header{
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/zTree/v3/css/metroStyle/metroStyle.min.css"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/zTree/v3/js/ztree.min.js"))
+
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/jquery.layout/1.4.4/jquery.layout-latest.min.css"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/jquery.layout/1.4.4/jquery.layout-latest.min.js"))
+}
+
+<div class="container-div ui-layout-center">
+        <div id="toolbar" class="btn-group-sm">
+            <h2>导入电量模板信息,由系统自动计算电费</h2>
+            <a id="btnImport" class="btn btn-info" onclick="importForm()"><i class="fa fa-upload"></i> 导入</a>
+            @*<a id="btnExport" class="btn btn-warning" onclick="exportForm()"><i class="fa fa-download"></i> 导出</a>*@
+        </div>       
+        <div>
+            <h1>计算电费由alert()展示出来</h1>
+        </div>
+</div>
+
+<script type="text/javascript">
+
+    //function exportForm() {
+    //    //var url = '@Url.Content("~/OrganizationManage/User/ExportUserJson")';
+    //    var url = '@Url.Content("~/CalElectChargesManage/CalElectChargesManage/ExportElectJson")';
+    //    var postData = $("#searchDiv").getWebControls();
+    //    ys.exportExcel(url, postData);
+    //}
+
+    function importForm() {
+        ys.openDialog({
+            title: "导入用户数据",
+            content: '@Url.Content("~/CalElectChargesManage/CalElectCharges/ElectImport")',
+            height: "280px",
+            callback: function (index, layero) {
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                iframeWin.saveForm(index);
+            }
+        });
+    }
+</script>

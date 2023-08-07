@@ -343,7 +343,12 @@ namespace Alfred.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-
+        /// <summary>
+        /// 导入execl数据
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public async Task<TData> ImportUser(ImportParam param, List<UserEntity> list)
         {
             TData obj = new TData();
