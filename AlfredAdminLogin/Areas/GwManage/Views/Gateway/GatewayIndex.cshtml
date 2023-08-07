@@ -1,0 +1,85 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<div class="container-div">
+    <div class="row">
+        <div id="searchDiv" class="col-sm-12 search-collapse">
+            <div class="select-list">
+                <ul>
+                    <li>
+                        网关类型：<input id="newsTitle" col="NewsTitle" type="text" />
+                    </li>
+                    <li>
+                        <a id="btnSearch" class="btn btn-primary btn-sm" onclick="searchGrid()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group-sm" id="toolbar">
+                <h2>连接系统的网关</h2>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="gridTable" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    /*
+        function getDataDictValue(dictType, dictKey) {
+        if (dataDict[dictType]) {
+            for (var i = 0; i < dataDict[dictType].length; i++) {
+                if (dataDict[dictType][i].DictKey == dictKey) {
+                    if (dataDict[dictType][i].ListClass) {
+                        return '<span class="badge badge-' + dataDict[dictType][i].ListClass + '">' + dataDict[dictType][i].DictValue + '</span>';
+                    }
+                    else {
+                        return dataDict[dictType][i].DictValue;
+                    }
+                }
+            }
+        }
+        return '';
+    }
+     */
+    $(function(){
+        initGrid();
+    });
+
+    function initGrid(){
+        var queryUrl='@Url.Content("~/GwManage/Gateway/GetPageListJson")';
+        $('#gridTable').ysTable({
+            url:queryUrl,
+            sortName:'GatewaySort',
+            sortOrder:'Desc',
+            columns:[
+                {checkbox:true,visible:true},
+                { field:'Id',title:'Id',visible:false},
+                { field: 'GwClientId', title: '网关Id' },
+                /*{
+                    field: 'NewsType', title: '文章类型', formatter: function (value, row, index) {
+                        return top.getDataDictValue('NewsType', value);
+                    }
+                }, */
+                { 
+                    field:'GwConnectingFlag',title:'连接状态',
+                    formatter:function (value){
+                        return top.getDataDictValue('GwConnectingFlag', value+1);
+                    }
+                },
+                { field: 'GwConnectedDate', title: '第一次连接的时间' },
+                { field: 'GwConnectedTltDate', title: '最后一次连接的时间' },
+                { field: 'GwType', title: '网关类型' },
+            ],
+            queryParams: function (params) {
+                var pagination = $('#gridTable').ysTable('getPagination', params);
+                var queryString = $('#searchDiv').getWebControls(pagination);
+                return queryString;
+            }
+        })
+    }
+
+    function searchGrid() {
+        alert("暂时因为参数未确定,未添加查询功能");
+    }
+</script>

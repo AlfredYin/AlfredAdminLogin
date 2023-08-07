@@ -1,0 +1,1 @@
+dotnet Alfred.Admin.Web.dll

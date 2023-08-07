@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Alfred.Business.Cache\Alfred.Business.Cache.csproj" />
+    <ProjectReference Include="..\Alfred.Data.Repository\Alfred.Data.Repository.csproj" />
+    <ProjectReference Include="..\Alfred.Ebtity\Alfred.Entity.csproj" />
+    <ProjectReference Include="..\Alfred.Util\Alfred.Util.csproj" />
+  </ItemGroup>
+
+</Project>
