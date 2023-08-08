@@ -55,6 +55,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlfredAdminLogin.WebApi", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alfred.Entity", "..\Alfred.Entity\Alfred.Entity.csproj", "{5CC43F61-2ACB-442E-BD15-9695B7A15B00}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Test", "06_Test", "{95FD2328-1D86-4439-8829-348772223CB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alfred.Business.Test", "..\Alfred.Business.Test\Alfred.Business.Test.csproj", "{FBD71A4D-B5CA-4F9D-A915-C03771F6C6A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +145,10 @@ Global
 		{5CC43F61-2ACB-442E-BD15-9695B7A15B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CC43F61-2ACB-442E-BD15-9695B7A15B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CC43F61-2ACB-442E-BD15-9695B7A15B00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBD71A4D-B5CA-4F9D-A915-C03771F6C6A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBD71A4D-B5CA-4F9D-A915-C03771F6C6A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBD71A4D-B5CA-4F9D-A915-C03771F6C6A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBD71A4D-B5CA-4F9D-A915-C03771F6C6A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +173,7 @@ Global
 		{87BC054D-D994-48B9-8A11-9F998C758509} = {023F4272-212A-4179-971C-346163C05A30}
 		{F2D4E389-0C70-48D2-882E-620AA78F3E20} = {EAC7B983-C096-4232-87F4-4C550520821B}
 		{5CC43F61-2ACB-442E-BD15-9695B7A15B00} = {023F4272-212A-4179-971C-346163C05A30}
+		{FBD71A4D-B5CA-4F9D-A915-C03771F6C6A0} = {95FD2328-1D86-4439-8829-348772223CB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5E3440C-AD57-4305-8336-1EFDB812E1A3}

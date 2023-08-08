@@ -97,10 +97,12 @@ namespace Alfred.Entity
         public async Task Modify()
         {
             this.BaseVersion = 0;
+            //修改时间更改
             this.BaseModifyTime = DateTime.Now;
-
+            //修改人的Id更改
             if (this.BaseModifierId == null)
             {
+                //操作人是谁
                 OperatorInfo user = await Operator.Instance.Current();
                 if (user != null)
                 {
@@ -134,6 +136,7 @@ namespace Alfred.Entity
             await base.Modify();
         }
 
+        //更新用户实体属性 中的 修改时间等等等....
         public new async Task Modify()
         {
             await base.Modify();

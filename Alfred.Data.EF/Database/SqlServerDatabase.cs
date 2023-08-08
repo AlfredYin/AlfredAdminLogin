@@ -20,8 +20,10 @@ namespace Alfred.Data.EF
         /// <summary>
         /// 构造方法
         /// </summary>
+        /// 放数据访问的上下文对象
         public SqlServerDatabase(string connString)
         {
+            //构造函数,构成数据库的上下文对象
             dbContext = new SqlServerDbContext(connString);
         }
         #endregion
@@ -30,6 +32,7 @@ namespace Alfred.Data.EF
         /// <summary>
         /// 获取 当前使用的数据访问上下文对象
         /// </summary>
+        /// 数据库上下文,由它调用数据库的各项操作
         public DbContext dbContext { get; set; }
         /// <summary>
         /// 事务对象
@@ -59,9 +62,14 @@ namespace Alfred.Data.EF
         {
             try
             {
+                //工具方法,设置实体的默认值
                 DbContextExtension.SetEntityDefaultValue(dbContext);
 
+                //调用SaveChangesAsync方法来保存更改,并将返回的影响的行数赋值给returnValue变量
                 int returnValue = await dbContext.SaveChangesAsync();
+
+                //再根据dbContextTransaction是否为空来判断是否存在数据库事务,如果存在事务,则提交事务;
+                //最后再关闭数据链接
                 if (dbContextTransaction != null)
                 {
                     await dbContextTransaction.CommitAsync();
@@ -71,6 +79,7 @@ namespace Alfred.Data.EF
                 {
                     await this.Close();
                 }
+                //返回操作受影响的行数
                 return returnValue;
             }
             catch
@@ -79,6 +88,7 @@ namespace Alfred.Data.EF
             }
             finally
             {
+                //最终关闭数据连接
                 if (dbContextTransaction == null)
                 {
                     await this.Close();
@@ -232,22 +242,33 @@ namespace Alfred.Data.EF
             return -1;
         }
 
+        //异步方法,接受一个泛型参数T的实体对象,返回一个代表更新操作影响的整数.
+        //方法内部使用dbContext的Attach方法将实体附加到数据库的上下文,获取实体的属性信息,并遍历每个属性
         public async Task<int> Update<T>(T entity) where T : class
         {
             dbContext.Set<T>().Attach(entity);
+
+            //获取缓存中的中的值,如果没有还是调用数据库的值
             Hashtable props = DatabasesExtension.GetPropertyInfo<T>(entity);
+
+            //遍历实体中的每个属性
             foreach (string item in props.Keys)
             {
+                //跳过该属性,因为通常不可以修改实体的主键
                 if (item == "Id")
                 {
                     continue;
                 }
+                //获取object对象
                 object value = dbContext.Entry(entity).Property(item).CurrentValue;
+                //值不为空的话,将该属性标记为已修改
                 if (value != null)
                 {
+                    //已经更改
                     dbContext.Entry(entity).Property(item).IsModified = true;
                 }
             }
+            //根据dbContextTransaction是否为空来决定是否提交数据库事务并返回操作影响的行数
             return dbContextTransaction == null ? await this.CommitTrans() : 0;
         }
         public async Task<int> Update<T>(IEnumerable<T> entities) where T : class
@@ -277,6 +298,8 @@ namespace Alfred.Data.EF
         #endregion
 
         #region 对象实体 查询
+        //这段代码是一异步方法,它接受一个object类型的keyValue参数,并返回一个代表找到的实体对象的泛型.
+        //方法内部使用泛型参数类型和传入的keyValue值来调用数据库上下文(dbContext)的Set方法,并在该实体上调用FindAsync方法来调用查找实体对象.等待找到实体对象并返回结果
         public async Task<T> FindEntity<T>(object keyValue) where T : class
         {
             return await dbContext.Set<T>().FindAsync(keyValue);

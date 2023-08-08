@@ -17,7 +17,7 @@
             @*<a id="btnExport" class="btn btn-warning" onclick="exportForm()"><i class="fa fa-download"></i> 导出</a>*@
         </div>       
         <div>
-            <h1>计算电费由alert()展示出来</h1>
+            <table id="showTable"></table>
         </div>
 </div>
 
@@ -41,4 +41,8 @@
             }
         });
     }
+
+    $('showTable').bootstrapTable({
+        
+    });
 </script>

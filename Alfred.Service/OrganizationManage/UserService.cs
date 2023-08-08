@@ -152,7 +152,10 @@ namespace Alfred.Service.OrganizationManage
 
         public async Task ResetPassword(UserEntity entity)
         {
+            //Modify 修改限定
             await entity.Modify();
+
+            //数据库更新
             await this.BaseRepository().Update(entity);
         }
 

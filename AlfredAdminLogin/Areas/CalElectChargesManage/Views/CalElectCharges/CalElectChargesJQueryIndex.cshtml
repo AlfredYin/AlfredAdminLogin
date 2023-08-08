@@ -1,14 +1,16 @@
 ﻿@{
-    Layout = "~/Views/Shared/_FormWhite.cshtml";
+    Layout = "~/Views/Shared/_Index.cshtml";
 }
-
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
 @section header{
     @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/fileinput/5.0.3/css/fileinput.min.css"))
     @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/fileinput/5.0.3/js/fileinput.min.js"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/alfred/css/alfred.min.css"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/alfred/js/alfred-init.min.js"))
 }
 
-<div class="wrapper animated fadeInRight">
+<div class="container-div ui-layout-center">
+    
     <form id="form" class="form-horizontal m">
         <div class="form-group">
             <label class="col-sm-2 control-label ">选择文件</label>
@@ -28,14 +30,23 @@
                 提示：仅允许导入“xls”或“xlsx”格式文件！
             </div>
         </div>
+        <div class="btndiv">
+            <p style="align-content"><button type="submit" class="btn btn-w-m btn-default" onclick="sendForm(1)">提交</button></p>
+        </div>
     </form>
+    <div>
+        <div>
+            <h1>手动导入用电电量Excel表格,系统自动计算总电费</h1>
+            <p><button type="button" class="btn btn-w-m btn-default" onclick="">获取系统返回的电压</button></p>
+            <ul id="item-list"></ul>
+        </div>
+    </div>
 </div>
 
-<script type="text/javascript">
-    
+<script>
     //
-    var filePath = undefined;
-
+    var filePath=undefined;
+    
     /*
     这是一个使用jQuery的fileinput插件的示例代码。
     该示例使用`$("#importFile")`选择器选中一个具有`id="importFile"`的文件输入字段，并通过调用`.fileinput()`方法来初始化它。
@@ -47,43 +58,66 @@
     这里我们假设返回的JSON数据有一个名为`Tag`的字段，如果它的值为1，则将返回数据中的`Data`字段赋值给变量`filePath`，否则将`filePath`置为空字符串。
     这段代码通过监听文件上传完成事件，并处理服务器返回的JSON数据，可以在前端获取到上传文件成功后服务器返回的路径（以供后续操作使用）。
     */
+
+    //初始化时，我们可以传递一些参数来配置文件输入字段的行为。在这个例子中，`language: 'zh'`将文件输入字段的语言设置为中文。
+    //`uploadUrl`参数指定了文件上传的URL地址，使用了`@Url.Content("~/File/UploadFile")`来获取动态的URL，并传递了一个查询字符串参数`fileModule`，它表示了上传的文件模块。
+    //`showPreview: false`参数禁用了文件预览功能。`allowedFileExtensions`参数指定了允许上传的文件扩展名，这里只允许上传xls和xlsx文件。
     $(document).ready(function () {
+
         $("#importFile").fileinput({
-            language: 'zh',
-            'uploadUrl': '@Url.Content("~/File/UploadFile")' + '?fileModule=@UploadFileType.Import.ParseToInt()',
-            showPreview: false,
-            allowedFileExtensions: ['xls', 'xlsx']
-        }).on("fileuploaded", function (event, data) {
-            var obj = data.response;
-            if (obj.Tag == 1) {
-                filePath = obj.Data;
+            language:'zh',
+            'uploadUrl':'@Url.Content("~/File/UploadFile")'+'?fileModule=@UploadFileType.Import.ParseToInt()',
+            showPreview:false,
+            //allowedFileExtensions: ['xls', 'xlsx']
+        }).on("fileuploaded",function(event,data){
+            var obj=data.response;
+            if(obj.Tag==1){
+                filePath=obj.Data;
             }
-            else {
-                filePath = '';
+            else{
+                filePath='';
             }
         });
     });
+    //$(document).ready(function () {
+    //    $.ajax({
+    //        url: '@Url.Content("~/CalElectChargesManage/CalElectCharges/CalElectChargesJQueryIndex")',  // 后端接口的URL
+    //        method: 'GET',
+    //        dataType: 'json',
+    //        success: function (response) {
+    //            var itemList = $('#item-list');
+    //            var listItem = '电费' + response.charges;
+    //            itemList.append(listItem);
+    //        }
+    //    });
+    //});
 
-    //
-    function saveForm(index) {
+    function sendForm(index) {
         if (!filePath) {
-            ys.alertError('文件未上传或者上传失败');
+            alert('文件未上传或者上传失败');
             return;
         }
         var postData = $("#form").getWebControls();
         postData.FilePath = filePath;
-        ys.ajax({
+        $.ajax({
             url: '@Url.Content("~/CalElectChargesManage/CalElectCharges/ImportElectJson")',
             type: "post",
             data: postData,
             success: function (obj) {
                 if (obj.Tag == 1) {
-                    alert('计算成功: 电费 : '+obj.Message);
-                    parent.layer.close(index);
+                    alert('解析成功 计算结果如下 !');
+                    console.log(obj.Message);
+                    //处理解析出来的电费参数
+                    
+                    alert('总电费 : '+obj.Message);
+                    $('#item-list').append('<li>' + '总电费 : '+obj.Message + '</li>');
                 }
                 else {
-                    ys.msgError(obj.Message);
+                    alert('解析失败 失败原因 : ' + obj.Message);
                 }
+            },
+            error:function(error){
+                console.log(error);
             }
         });
     }

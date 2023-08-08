@@ -267,20 +267,33 @@ namespace Alfred.Business.OrganizationManage
         public async Task<TData<long>> ResetPassword(UserEntity entity)
         {
             TData<long> obj = new TData<long>();
+
+            //为啥判断大于0?
             if (entity.Id > 0)
             {
+                //通过Id 获取要修改的实体
+                //数据库实体
                 UserEntity dbUserEntity = await userService.GetEntity(entity.Id.Value);
+
+                //数据库实体与参数实体进行比较
                 if (dbUserEntity.Password == entity.Password)
                 {
                     obj.Message = "密码未更改";
                     return obj;
                 }
+
+                //获取加密盐
                 entity.Salt = GetPasswordSalt();
+                //通过加密盐计算密码
                 entity.Password = EncryptUserPassword(entity.Password, entity.Salt);
+
+                //userService更改密码
                 await userService.ResetPassword(entity);
 
+                //删除Cache,通过实体的Id删除
                 await RemoveCacheById(entity.Id.Value);
 
+                //返回值填充
                 obj.Data = entity.Id.Value;
                 obj.Tag = 1;
             }
@@ -418,6 +431,11 @@ namespace Alfred.Business.OrganizationManage
             }
         }
 
+        /// <summary>
+        /// 通过Id删除,缓存中的实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private async Task RemoveCacheById(long id)
         {
             var dbEntity = await userService.GetEntity(id);

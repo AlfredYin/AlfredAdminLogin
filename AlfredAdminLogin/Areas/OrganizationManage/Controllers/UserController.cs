@@ -160,11 +160,15 @@ namespace Alfred.Admin.Web.Areas.OrganizationManage.Controllers
             return Json(obj);
         }
 
+        //管理员重置密码
         [HttpPost]
         [AuthorizeFilter("organization:user:resetpassword")]
         public async Task<IActionResult> ResetPasswordJson(UserEntity entity)
         {
+            //调用BLL实体,通过实体更改密码
             TData<long> obj = await userBLL.ResetPassword(entity);
+
+            //返回Json格式数据
             return Json(obj);
         }
 

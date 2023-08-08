@@ -126,6 +126,8 @@ namespace Alfred.Data.Repository
         #endregion
 
         #region 对象实体 查询
+        //是一个异步方法,它接受一个long类型的Id参数,并返回一个代表找到的实体对象的泛型.
+        //方法内部使用泛型参数类型和传入的id值来调用数据库的上下文(db)的FindEntity方法,然后等待找到实体对象后返回结果.
         public async Task<T> FindEntity<T>(long id) where T : class
         {
             return await db.FindEntity<T>(id);
