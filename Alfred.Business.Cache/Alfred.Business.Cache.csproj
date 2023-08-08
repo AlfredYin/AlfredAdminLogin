@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Alfred.Cache.Factory\Alfred.Cache.Factory.csproj" />
-    <ProjectReference Include="..\Alfred.Ebtity\Alfred.Entity.csproj" />
+    <ProjectReference Include="..\Alfred.Entity\Alfred.Entity.csproj" />
     <ProjectReference Include="..\Alfred.Service\Alfred.Service.csproj" />
   </ItemGroup>
 

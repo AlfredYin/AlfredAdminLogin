@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Data;
 using System.Web;
 using Newtonsoft.Json.Linq;
@@ -12,9 +7,9 @@ using Alfred.CodeGenerator.Model;
 using Alfred.Util;
 using Alfred.Util.Extension;
 using Alfred.Util.Model;
-using Alfred.Entity.SystemManage;
 using Alfred.Enum.SystemManage;
 using Alfred.Business.Cache;
+using Alfred.Entity.SystemManage;
 using Alfred.Entity;
 
 namespace Alfred.CodeGenerator.Template

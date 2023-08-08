@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Alfred.Entity.OrganizationManage;
 
 namespace Alfred.Model.Param.OrganizationManage
 {

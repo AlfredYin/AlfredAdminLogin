@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Alfred.Data.Repository\Alfred.Data.Repository.csproj" />
-    <ProjectReference Include="..\Alfred.Ebtity\Alfred.Entity.csproj" />
+    <ProjectReference Include="..\Alfred.Entity\Alfred.Entity.csproj" />
     <ProjectReference Include="..\Alfred.Enum\Alfred.Enum.csproj" />
     <ProjectReference Include="..\Alfred.IdGenerator\Alfred.IdGenerator.csproj" />
     <ProjectReference Include="..\Alfred.Model\Alfred.Model.csproj" />

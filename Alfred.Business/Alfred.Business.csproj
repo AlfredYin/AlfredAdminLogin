@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Alfred.Business.Cache\Alfred.Business.Cache.csproj" />
     <ProjectReference Include="..\Alfred.CodeGenerator\Alfred.CodeGenerator.csproj" />
-    <ProjectReference Include="..\Alfred.Ebtity\Alfred.Entity.csproj" />
+    <ProjectReference Include="..\Alfred.Entity\Alfred.Entity.csproj" />
     <ProjectReference Include="..\Alfred.Enum\Alfred.Enum.csproj" />
     <ProjectReference Include="..\Alfred.Service\Alfred.Service.csproj" />
   </ItemGroup>

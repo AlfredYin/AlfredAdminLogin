@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\yisha\**" />
-    <Content Remove="wwwroot\yisha\**" />
-    <EmbeddedResource Remove="wwwroot\yisha\**" />
-    <None Remove="wwwroot\yisha\**" />
+    <Compile Remove="wwwroot\alfred\**" />
+    <Content Remove="wwwroot\alfred\**" />
+    <EmbeddedResource Remove="wwwroot\alfred\**" />
+    <None Remove="wwwroot\alfred\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +27,6 @@
     <ProjectReference Include="..\Alfred.Business.AutoJob\Alfred.Business.AutoJob.csproj" />
     <ProjectReference Include="..\Alfred.Business\Alfred.Business.csproj" />
     <ProjectReference Include="..\Alfred.Data.EF\Alfred.Data.EF.csproj" />
-    <ProjectReference Include="..\Alfred.Ebtity\Alfred.Entity.csproj" />
     <ProjectReference Include="..\Alfred.IdGenerator\Alfred.IdGenerator.csproj" />
     <ProjectReference Include="..\Alfred.Util\Alfred.Util.csproj" />
     <ProjectReference Include="..\Alfred.Web.Code\Alfred.Web.Code.csproj" />

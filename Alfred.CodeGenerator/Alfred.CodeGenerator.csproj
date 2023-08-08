@@ -14,6 +14,7 @@
     <ProjectReference Include="..\Alfred.Business.Cache\Alfred.Business.Cache.csproj" />
     <ProjectReference Include="..\Alfred.Data.Repository\Alfred.Data.Repository.csproj" />
     <ProjectReference Include="..\Alfred.Ebtity\Alfred.Entity.csproj" />
+    <ProjectReference Include="..\Alfred.Entity\Alfred.Entity.csproj" />
     <ProjectReference Include="..\Alfred.Util\Alfred.Util.csproj" />
   </ItemGroup>
 

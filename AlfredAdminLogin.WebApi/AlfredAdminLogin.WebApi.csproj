@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Alfred.Business.AutoJob\Alfred.Business.AutoJob.csproj" />
     <ProjectReference Include="..\Alfred.Business\Alfred.Business.csproj" />
+    <ProjectReference Include="..\Alfred.Entity\Alfred.Entity.csproj" />
     <ProjectReference Include="..\Alfred.Util\Alfred.Util.csproj" />
   </ItemGroup>
 
