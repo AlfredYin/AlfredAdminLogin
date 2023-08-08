@@ -77,7 +77,7 @@ namespace Alfred.Service.SystemManage
         }
 
         /// <summary>
-        /// 仅用在YiShaAdmin框架里面，同步不同数据库之间的数据，以 MySql 为主库，同步 MySql 的数据到SqlServer和Oracle，保证各个数据库的数据是一样的
+        /// 仅用在框架里面，同步不同数据库之间的数据，以 MySql 为主库，同步 MySql 的数据到SqlServer和Oracle，保证各个数据库的数据是一样的
         /// </summary>
         /// <returns></returns>
         public async Task SyncDatabase()

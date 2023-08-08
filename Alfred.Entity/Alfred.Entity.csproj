@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Alfred.Web.Code\Alfred.Web.Code.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Business.Test\" />
+  </ItemGroup>
+
 </Project>
