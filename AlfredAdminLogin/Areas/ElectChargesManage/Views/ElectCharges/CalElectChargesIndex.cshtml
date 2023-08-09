@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Alfred.Util;
+@{
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
@@ -22,18 +23,10 @@
 </div>
 
 <script type="text/javascript">
-
-    //function exportForm() {
-    //    //var url = '@Url.Content("~/OrganizationManage/User/ExportUserJson")';
-    //    var url = '@Url.Content("~/CalElectChargesManage/CalElectChargesManage/ExportElectJson")';
-    //    var postData = $("#searchDiv").getWebControls();
-    //    ys.exportExcel(url, postData);
-    //}
-
     function importForm() {
         ys.openDialog({
             title: "导入用户数据",
-            content: '@Url.Content("~/CalElectChargesManage/CalElectCharges/ElectImport")',
+            content: '@Url.Content("~/ElectChargesManage/ElectCharges/ElectImport")',
             height: "280px",
             callback: function (index, layero) {
                 var iframeWin = window[layero.find('iframe')[0]['name']];
@@ -43,6 +36,6 @@
     }
 
     $('showTable').bootstrapTable({
-        
+        //展示电费数据
     });
 </script>

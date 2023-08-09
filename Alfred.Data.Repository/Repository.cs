@@ -215,6 +215,7 @@ namespace Alfred.Data.Repository
         {
             return await db.FindObject<T>(strSql);
         }
+
         #endregion
     }
 }

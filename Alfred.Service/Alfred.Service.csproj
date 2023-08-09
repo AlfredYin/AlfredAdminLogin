@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Alfred.Util\Alfred.Util.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CalElectChargesManage\" />
-  </ItemGroup>
-
 </Project>

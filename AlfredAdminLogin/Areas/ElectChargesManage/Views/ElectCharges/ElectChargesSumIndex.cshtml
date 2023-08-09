@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+@section header{
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/zTree/v3/css/metroStyle/metroStyle.min.css"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/zTree/v3/js/ztree.min.js"))
+
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/jquery.layout/1.4.4/jquery.layout-latest.min.css"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/jquery.layout/1.4.4/jquery.layout-latest.min.js"))
+}
+
+<div class="container-div ui-layout-center">
+    <div class="row">
+        <div id="searchDiv" class="col-sm-12 search-collapse">
+            <input type="hidden" id="departmentId" col="DepartmentId">
+            <div class="select-list">
+                <ul>
+                    @*<li>
+                    登录名称：<input id="userName" col="UserName" type="text" />
+                    </li>
+                    <li>
+                    手机号码：<input id="mobile" col="Mobile" type="text" />
+                    </li>
+                    <li>
+                    用户状态：<span id="userStatus" col="UserStatus"></span>
+                    </li>*@
+                    <li class="select-time">
+                        <label>日期： </label>
+                        <input id="startTime" col="StartTime" type="text" class="time-input" placeholder="开始时间" />
+                        <span>-</span>
+                        <input id="endTime" col="EndTime" type="text" class="time-input" placeholder="结束时间" />
+                    </li>
+                    <li>
+                        <a id="btnSearch" class="btn btn-primary btn-sm" onclick="searchGrid()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="gridTable" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+
+                        
+<script type="text/javascript">
+    $(function () {
+        initGrid();
+
+        $('body').layout({ west__size: 185 });
+
+        laydate.render({ elem: '#startTime', format: 'yyyy-MM-dd' });
+        laydate.render({ elem: '#endTime', format: 'yyyy-MM-dd' });
+
+    });
+
+    function initGrid() {
+        
+        var queryUrl = '@Url.Content("~/ElectChargesManage/ElectCharges/GetSumListJson")';
+        $('#gridTable').ysTable({
+            url: queryUrl,
+            //showSearch: false,
+            //showRefresh: false,
+            //showToggle: false,
+            //showColumns: false,
+            columns: [
+                [
+                    { title: '总计详情', align: 'center', colspan: 2 },
+                    { title: '尖峰', align: 'center', colspan: 3 },
+                    { title: '波峰', align: 'center', colspan: 3 },
+                    { title: '波谷', align: 'center', colspan: 3 },
+                    { title: '低谷', align: 'center', colspan: 4 },
+                ],
+                //{ checkbox: true, visible: true },
+                [
+                    {
+                        field: 'BaseCreateTime', title: '获取时间', formatter: function (value, row, index) {
+                            return ys.formatDate(value, "yyyy-MM-dd");
+                        }
+                    },
+                    { field: 'Id', title: 'Id', visible: false },
+
+                    { field: 'LoopName', title: '回路名称' },
+
+                    { field: 'spike_value', title: '尖峰电量' },
+                    { field: 'spike_price', title: '尖峰电价' },
+                    //电费
+                    { field: 'spike_charges', title: '尖峰电费' },
+
+                    { field: 'peak_value', title: '波峰电量' },
+                    { field: 'peak_price', title: '波峰电价' },
+                    //电费
+                    { field: 'peak_charges', title: '波峰电费' },
+
+                    { field: 'valley_value', title: '波谷电量' },
+                    { field: 'valley_price', title: '波谷电价' },
+                    //电费
+                    { field: 'valley_charges', title: '波谷电费' },
+
+                    { field: 'bottom_value', title: '低谷电量' },
+                    { field: 'bottom_price', title: '低谷电价' },
+                    //电费
+                    { field: 'bottom_charges', title: '低谷电费' },
+                ]
+                
+            ],
+            queryParams: function (params) {
+                var pagination = $('#gridTable').ysTable('getPagination', params);
+                var queryString = $("#searchDiv").getWebControls(pagination);
+                return queryString;
+            }
+        });
+    }
+
+    function searchGrid() {
+        $('#gridTable').ysTable('search');
+        resetToolbarStatus();
+    }
+
+</script>

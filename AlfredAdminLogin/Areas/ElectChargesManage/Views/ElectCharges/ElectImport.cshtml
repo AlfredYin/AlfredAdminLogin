@@ -73,7 +73,7 @@
         var postData = $("#form").getWebControls();
         postData.FilePath = filePath;
         ys.ajax({
-            url: '@Url.Content("~/CalElectChargesManage/CalElectCharges/ImportElectJson")',
+            url: '@Url.Content("~/ElectChargesManage/ElectCharges/ImportElectJson")',
             type: "post",
             data: postData,
             success: function (obj) {

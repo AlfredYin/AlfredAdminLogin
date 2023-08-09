@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Alfred.Business.CalElectChargesManage
+namespace Alfred.Service.ElectChargesManage
 {
-    public class CalElectChargesBLL
+    public class CalElectChargesSerivce
     {
         //电费价格
         private double elect_price = 0.5520;
@@ -23,12 +23,12 @@ namespace Alfred.Business.CalElectChargesManage
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public TData CalElectCharges(List<ElectEntity> list)
+        public TData CalElectCharges(List<CountEntity> list)
         {
-            TData obj=new TData();
+            TData obj = new TData();
             if (list.Any())
             {
-                foreach (ElectEntity e in list)
+                foreach (CountEntity e in list)
                 {
                     day_elect_sum = 0.0;
                     day_elect_sum = day_elect_sum + GetCalResultByOneHour(e.time_00, e.Month, 0);
@@ -64,7 +64,7 @@ namespace Alfred.Business.CalElectChargesManage
             {
                 obj.Message = "未找到导入的数据";
             }
-            
+
             return obj;
         }
 

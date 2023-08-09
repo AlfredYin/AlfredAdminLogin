@@ -1,7 +1,9 @@
 ﻿@{
     Layout = "~/Views/Shared/_Index.cshtml";
 }
+
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+
 @section header{
     @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/fileinput/5.0.3/css/fileinput.min.css"))
     @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/fileinput/5.0.3/js/fileinput.min.js"))

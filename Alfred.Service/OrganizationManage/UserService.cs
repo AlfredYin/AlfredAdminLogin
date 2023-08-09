@@ -176,28 +176,34 @@ namespace Alfred.Service.OrganizationManage
                 {
                     expression = expression.And(t => t.UserName.Contains(param.UserName));
                 }
+                //是否具有Id参数
                 if (!string.IsNullOrEmpty(param.UserIds))
                 {
                     long[] userIdList = TextHelper.SplitToArray<long>(param.UserIds, ',');
                     expression = expression.And(t => userIdList.Contains(t.Id.Value));
                 }
+                //电话
                 if (!string.IsNullOrEmpty(param.Mobile))
                 {
                     expression = expression.And(t => t.Mobile.Contains(param.Mobile));
                 }
+                //状况
                 if (param.UserStatus > -1)
                 {
                     expression = expression.And(t => t.UserStatus == param.UserStatus);
                 }
+                //开始时间
                 if (!string.IsNullOrEmpty(param.StartTime.ParseToString()))
                 {
                     expression = expression.And(t => t.BaseModifyTime >= param.StartTime);
                 }
+                //结束时间
                 if (!string.IsNullOrEmpty(param.EndTime.ParseToString()))
                 {
                     param.EndTime = param.EndTime.Value.Date.Add(new TimeSpan(23, 59, 59));
                     expression = expression.And(t => t.BaseModifyTime <= param.EndTime);
                 }
+                //所属部门
                 if (param.ChildrenDepartmentIdList != null && param.ChildrenDepartmentIdList.Count > 0)
                 {
                     expression = expression.And(t => param.ChildrenDepartmentIdList.Contains(t.DepartmentId.Value));
