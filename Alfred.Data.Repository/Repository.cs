@@ -14,8 +14,7 @@ using Alfred.Util.Model;
 namespace Alfred.Data.Repository
 {
     /// <summary>
-    /// 创建人：admin
-    /// 日 期：2018.10.18
+    /// 创建人：AlfredYin
     /// 描 述：定义仓储模型中的数据标准操作接口
     /// </summary>
     public class Repository
