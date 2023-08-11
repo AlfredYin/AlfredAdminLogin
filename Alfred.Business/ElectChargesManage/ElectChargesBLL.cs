@@ -50,11 +50,19 @@ namespace Alfred.Business.CalElectChargesManage
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public TData CalElectCharges(List<CountEntity> list)
+        public TData CalElectCharges(List<CountElectEntity> list)
         {
             TData data = new TData();
             data=calElectChargesSerivce.CalElectCharges(list);
             return data;
+        }
+
+        public async Task<TData> ImportElect()
+        {
+            TData obj = new TData();
+
+
+            return obj;
         }
 
         #endregion

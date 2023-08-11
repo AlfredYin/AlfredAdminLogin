@@ -26,25 +26,42 @@ namespace Alfred.Service.ElectChargesManage
             return CalChargesByList(list.ToList());   
         }
 
-        //展示不使用异步, 等学习之后再使用
+        //展示使用异步,
         //此处暂留
         //获取用户分页列表取消
         public async Task<List<ElectChargesEntity>> GetSumList(ElectChargesParam param) 
         {
-            List<ElectChargesEntity> returnlist= new List<ElectChargesEntity>();
-
-            var list=await GetList(param);
-
-            returnlist.Add(list[0]);
-
-            returnlist.Add(list[2]);
+            var expression=ListFilter(param);
+            var list = (await this.BaseRepository().FindList(expression)).ToList();
+            //继续使用ElectChargesEntity的实体
+            List<ElectChargesEntity> sumList = (from item in list
+                                                     group item by new
+                                                     {
+                                                         item.LoopName,
+                                                         item.spike_price,
+                                                         item.peak_price,
+                                                         item.valley_price,
+                                                         item.bottom_price,
+                                                         item.LoopId,
+                                                     } into grp
+                                                     select new ElectChargesEntity
+                                                     {
+                                                         LoopName = grp.Key.LoopName,
+                                                         spike_value = grp.Sum(x => x.spike_value),
+                                                         spike_price = grp.Key.spike_price,
+                                                         peak_value = grp.Sum(x => x.peak_value),
+                                                         peak_price = grp.Key.peak_price,
+                                                         valley_value = grp.Sum(x => x.valley_value),
+                                                         valley_price = grp.Key.valley_price,
+                                                         bottom_value = grp.Sum(x => x.bottom_value),
+                                                         bottom_price = grp.Key.bottom_price,
+                                                         LoopId=grp.Key.LoopId
+                                                     }).ToList();
 
             //肯定要改写成为Linq语句的
-            //首先
             //Linq 语句 GroupBy
-
             //返回returnlist
-            return returnlist;
+            return CalChargesByList(sumList.ToList());
         }
 
         #endregion

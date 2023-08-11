@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Alfred.Entity.CalElectChargesManage
 {
-    public class CountEntity
+    public class CountElectEntity
     {
         [Description("月份")]
         public int Month { get; set; }

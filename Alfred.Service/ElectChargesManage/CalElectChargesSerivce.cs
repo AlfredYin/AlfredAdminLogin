@@ -23,12 +23,12 @@ namespace Alfred.Service.ElectChargesManage
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public TData CalElectCharges(List<CountEntity> list)
+        public TData CalElectCharges(List<CountElectEntity> list)
         {
             TData obj = new TData();
             if (list.Any())
             {
-                foreach (CountEntity e in list)
+                foreach (CountElectEntity e in list)
                 {
                     day_elect_sum = 0.0;
                     day_elect_sum = day_elect_sum + GetCalResultByOneHour(e.time_00, e.Month, 0);

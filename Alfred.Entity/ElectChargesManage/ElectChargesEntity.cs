@@ -11,14 +11,15 @@ namespace Alfred.Entity.CalElectChargesManage
     public class ElectChargesEntity :  BaseExtensionEntity
     {
         public long Id { get; set; }
-        public string spike_value { get; set; }
-        public string peak_value { get; set; }
-        public string valley_value { get; set; }
-        public string bottom_value { get; set; }    
+        public double spike_value { get; set; }
+        public double peak_value { get; set; }
+        public double valley_value { get; set; }
+        public double bottom_value { get; set; }    
         public double spike_price { get; set; }
         public double peak_price { get; set; }
         public double valley_price { get; set; }
         public double bottom_price { get; set; }
+        public int LoopId { get; set; } 
 
         //结果由系统自己计算出来
         [NotMapped]

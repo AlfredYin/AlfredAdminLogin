@@ -59,10 +59,10 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
 
         #endregion
 
-        #region 手动导入电量部分
+       
 
         /// <summary>
-        /// CalElectCharges的Index视图 --- 手动导入
+        /// CalElectCharges的Index视图 --- 手动导入 ----------------- 这个首页视图
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -71,6 +71,8 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
         {
             return View();
         }
+
+        #region 手动导入电量部分 主视图
 
         /// <summary>
         /// 转到导入的视图,CalElectCharges的Index视图
@@ -83,8 +85,12 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
             return View();
         }
 
+        #endregion
+
+        #region 导入24 小时数据部分  ElectImport form表单 和 解析Excel导入数据库数据部分   ---------  暂时不导入数据库,因为不知道 怎么从小时
+
         /// <summary>
-        /// 处理上传的Excel并解析
+        /// 处理上传的Excel并解析 24各个小时电量
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
@@ -92,8 +98,11 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
         [AuthorizeFilter()]
         public async Task<IActionResult> ImportElectJson(ImportParam param)
         {
+
+            //使用Serivce进行处理
+
             //对excel进行处理
-            List<CountEntity> list = new ExcelHelper<CountEntity>().ImportFromExcel(param.FilePath);
+            List<CountElectEntity> list = new ExcelHelper<CountElectEntity>().ImportFromExcel(param.FilePath);
 
             //对列表进行处理
             TData obj = electChargesBLL.CalElectCharges(list);
@@ -103,10 +112,49 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
             return Json(obj);
         }
 
+        #endregion
+
+        #region 导入峰尖峰谷低谷四段电量模板  ElectImportBySegment form表单 和 解析Excel导入数据库数据 BySegment部分
+
+        /// <summary>
+        /// 转到导入的视图,CalElectCharges的Index视图
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthorizeFilter()]
+        public IActionResult ElectImportBySegment()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 处理上传的Excel并解析
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AuthorizeFilter()]
+        public async Task<IActionResult> ImportElectBySegmentJson(ImportParam param)
+        {
+
+            //使用Serivce进行处理
+
+            //对excel进行处理
+            List<CountElectEntity> list = new ExcelHelper<CountElectEntity>().ImportFromExcel(param.FilePath);
+
+            //对列表进行处理
+            TData obj = electChargesBLL.CalElectCharges(list);
+
+            charges = obj.Message;
+
+            return Json(obj);
+        }
 
         #endregion
 
-        #region JQuery 导入电量计算部分
+
+
+        #region JQuery 导入电量计算部分  ------------ 已经弃用,等以后再学前端更改这一部分
         //http://localhost:5000/CalElectChargesManage/CalElectCharges/CalElectChargesJQueryIndex
         /// <summary>
         /// CalElectChargesJQuery的Index视图
