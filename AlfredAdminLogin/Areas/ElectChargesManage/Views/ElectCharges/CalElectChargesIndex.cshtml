@@ -13,8 +13,8 @@
 
 <div class="container-div ui-layout-center">
         <div id="toolbar" class="btn-group-sm">
-            <h2>导入小时电量模板信息,由系统自动计算电费</h2>
-            <a id="btnImport" class="btn btn-info" onclick="importForm()"><i class="fa fa-upload"></i> 导入</a>
+            @*<h2>导入小时电量模板信息,由系统自动计算电费</h2>
+            <a id="btnImport" class="btn btn-info" onclick="importForm()"><i class="fa fa-upload"></i> 导入</a>*@
             @*<a id="btnExport" class="btn btn-warning" onclick="exportForm()"><i class="fa fa-download"></i> 导出</a>*@
         </div>
         <div id="toolbar" class="btn-group-sm">
@@ -30,7 +30,7 @@
 <script type="text/javascript">
     function importForm() {
         ys.openDialog({
-            title: "导入用户数据",
+            title: "导入数据",
             content: '@Url.Content("~/ElectChargesManage/ElectCharges/ElectImport")',
             height: "280px",
             callback: function (index, layero) {
@@ -42,8 +42,8 @@
 
     function importBySegmentForm() {
         ys.openDialog({
-            title: "导入用户数据",
-            content: '@Url.Content("~/ElectChargesManage/ElectCharges/ElectImport")',
+            title: "导入数据",
+            content: '@Url.Content("~/ElectChargesManage/ElectCharges/ElectImportBySegment")',
             height: "280px",
             callback: function (index, layero) {
                 var iframeWin = window[layero.find('iframe')[0]['name']];

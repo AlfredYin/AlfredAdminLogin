@@ -9,6 +9,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Alfred.Util;
+using Alfred.IdGenerator;
 
 namespace Alfred.Service.ElectChargesManage
 {
@@ -60,6 +62,51 @@ namespace Alfred.Service.ElectChargesManage
 
             //肯定要改写成为Linq语句的
             //Linq 语句 GroupBy
+
+            if (param.ContentKVA != 0)
+            {
+                ElectChargesEntity sumItem = new ElectChargesEntity()
+                {
+                    spike_price = sumList.Last().spike_price,
+                    peak_price = sumList.Last().peak_price,
+                    valley_price = sumList.Last().valley_price,
+                    bottom_price = sumList.Last().bottom_price,
+                };
+                sumItem.LoopName = "回路合并";
+                sumItem.LoopId = -1;
+
+                double spikeSum = 0.0;
+                double peakSum = 0.0;
+                double valleySum = 0.0;
+                double bottomSum = 0.0;
+
+                foreach (var item in sumList)
+                {
+                    spikeSum = item.spike_value + spikeSum;
+                    peakSum = item.peak_value + peakSum;
+                    valleySum = item.valley_value + valleySum;
+                    bottomSum = item.bottom_value + bottomSum;
+                }
+
+                sumItem.spike_value = spikeSum;
+                sumItem.peak_value = peakSum;
+                sumItem.valley_value = valleySum;
+                sumItem.bottom_value = bottomSum;
+
+                if (param.ElectType == 1)
+                {
+                    //山东
+                    sumItem.sum_charges = param.ContentKVA * 28;
+                }
+                if(param.ElectType == 2)
+                {
+                    sumItem.sum_charges = param.ContentKVA * 38;
+                }
+
+                sumList.Add(sumItem);
+            }
+            
+
             //返回returnlist
             return CalChargesByList(sumList.ToList());
         }
@@ -69,16 +116,64 @@ namespace Alfred.Service.ElectChargesManage
         #region 通过数据库获取的电量和电费列表 私有方法
         public List<ElectChargesEntity> CalChargesByList(List<ElectChargesEntity> list)
         {
+
+            double sum = 0.0;
+
             foreach(var row in list)
             {
-                row.spike_charges = row.spike_price * Convert.ToDouble(row.spike_value);
-                row.peak_charges=row.peak_price*Convert.ToDouble(row.peak_value);
-                row.valley_charges = row.valley_price * Convert.ToDouble(row.valley_value);
-                row.bottom_charges = row.bottom_price * Convert.ToDouble(row.bottom_value);
+                //保留四位小数
+                row.spike_charges = Math.Round(row.spike_price * Convert.ToDouble(row.spike_value), 4);
+                row.peak_charges= Math.Round(row.peak_price * Convert.ToDouble(row.peak_value), 4);
+                row.valley_charges = Math.Round(row.valley_price * Convert.ToDouble(row.valley_value), 4);
+                row.bottom_charges = Math.Round(row.bottom_price * Convert.ToDouble(row.bottom_value), 4);
+                sum = sum + row.spike_charges+ row.peak_charges + row.valley_charges +row.bottom_charges;
+
+                row.sum_charges= row.sum_charges+sum;
+                row.sum_charges=Math.Round(row.sum_charges,4);
             }
             return list;
         }
 
+        #endregion
+
+        #region 将数据存入数据库
+        public async Task SaveForm(ElectChargesEntity entity)
+        {
+            var db = await this.BaseRepository().BeginTrans();
+            try
+            {
+                //主键 怎么拼凑 ??? 新闻 this.Id = IdGeneratorHelper.Instance.GetId();
+                entity.Id=IdGeneratorHelper.Instance.GetId();
+
+                //填充entity中必填的数据
+                entity.BaseIsDelete = 0;
+                entity.BaseCreatorId = 1;
+                entity.BaseModifierId= 1;
+                entity.BaseVersion= 1;
+
+                //省份是山东
+                ElectChargesSelectPeakValleyPrice electChargesSelectPeakValleyPrice=new ElectChargesSelectPeakValleyPrice();
+                entity=electChargesSelectPeakValleyPrice.SelectPeakValleyPrice(entity,"shangdong");
+
+                //回路Id
+                entity = electChargesSelectPeakValleyPrice.SelectLoopId(entity);
+
+
+
+                //不修改创建时间
+                //只更改修改时间
+                //await entity.Modify();
+                entity.BaseModifyTime = DateTime.Now;
+                await db.Insert(entity);
+
+                await db.CommitTrans();
+            }
+            catch (Exception ex)
+            {
+                await db.RollbackTrans();
+                throw;
+            }
+        }
         #endregion
 
         #region 参数填充的私有方法
@@ -93,6 +188,7 @@ namespace Alfred.Service.ElectChargesManage
                     expression=expression.And(t=>t.LoopName.Contains(param.LoopName));
                 }
                 //开始时间
+                //BaseCreateTime 即 StartTime
                 if (!string.IsNullOrEmpty(param.StartTime.ParseToString()))
                 {
                     expression = expression.And(t => t.BaseCreateTime >= param.StartTime);

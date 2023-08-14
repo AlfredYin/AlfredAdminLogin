@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -261,37 +262,61 @@ namespace Alfred.Util.Extension
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(str))
-                {
-                    return DateTime.MinValue;
-                }
-                if (str.Contains("-") || str.Contains("/"))
-                {
-                    return DateTime.Parse(str);
-                }
-                else
-                {
-                    int length = str.Length;
-                    switch (length)
-                    {
-                        case 4:
-                            return DateTime.ParseExact(str, "yyyy", System.Globalization.CultureInfo.CurrentCulture);
-                        case 6:
-                            return DateTime.ParseExact(str, "yyyyMM", System.Globalization.CultureInfo.CurrentCulture);
-                        case 8:
-                            return DateTime.ParseExact(str, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
-                        case 10:
-                            return DateTime.ParseExact(str, "yyyyMMddHH", System.Globalization.CultureInfo.CurrentCulture);
-                        case 12:
-                            return DateTime.ParseExact(str, "yyyyMMddHHmm", System.Globalization.CultureInfo.CurrentCulture);
-                        case 14:
-                            return DateTime.ParseExact(str, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
-                        default:
-                            return DateTime.ParseExact(str, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
-                    }
-                }
+                string chineseDateString = str;
+                string englishFormat = "dd-MMM-yyyy";
+                DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
+                dtfi.MonthNames = new string[] { "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月", "" };
+
+                DateTime dateTime = DateTime.ParseExact(chineseDateString, "d-M月-yyyy", dtfi);
+                return dateTime;
+                //str = dateTime.ToString(englishFormat);
+
+                //if (string.IsNullOrWhiteSpace(str))
+                //{
+                //    return DateTime.MinValue;
+                //}
+                //if (str.Contains("-") || str.Contains("/"))
+                //{
+                //    dateTime = DateTime.Parse(str);
+                //    return dateTime;
+                //}
+                ////else
+                ////{
+                ////    // 使用中文月份格式化提供的日期字符串
+                ////    DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
+                ////    dtfi.MonthNames = new string[] { "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月", "" };
+                ////    return DateTime.ParseExact(str, "dMMMyyyy", dtfi, DateTimeStyles.AllowWhiteSpaces);
+                ////}
+                //else
+                //{
+                //    int length = str.Length;
+                //    switch (length)
+                //    {
+                //        case 4:
+                //            return DateTime.ParseExact(str, "yyyy", System.Globalization.CultureInfo.CurrentCulture);
+                //        case 6:
+                //            return DateTime.ParseExact(str, "yyyyMM", System.Globalization.CultureInfo.CurrentCulture);
+                //        case 8:
+                //            return DateTime.ParseExact(str, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
+                //        case 10:
+                //            return DateTime.ParseExact(str, "yyyyMMddHH", System.Globalization.CultureInfo.CurrentCulture);
+                //        case 12:
+                //            return DateTime.ParseExact(str, "yyyyMMddHHmm", System.Globalization.CultureInfo.CurrentCulture);
+                //        case 14:
+                //            return DateTime.ParseExact(str, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
+                //        default:
+                //            return DateTime.ParseExact(str, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
+                //    }
+                //}
             }
-            catch
+            /*
+             * 这个错误表明给定的字符串不符合DateTime的格式规范，因此无法将其转换为DateTime对象。
+            根据给定的错误消息 "String '14-7月-2023' was not recognized as a valid DateTime."，
+            可以推断是由于字符串中的月份使用了中文（7月）导致的错误。
+            要解决这个问题，需要确保输入的字符串符合DateTime的有效格式要求。
+            可以尝试将月份改为英文缩写（例如：Jul）或者使用标准的日期格式（例如：YYYY-MM-DD）来表示日期。
+             */
+            catch (Exception ex)
             {
                 return DateTime.MinValue;
             }

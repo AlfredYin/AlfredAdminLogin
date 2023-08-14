@@ -227,11 +227,18 @@ namespace Alfred.Util
         /// <returns></returns>
         public List<T> ImportFromExcel(string filePath)
         {
+            //将传入的相对路径转换为绝对路径
             string absoluteFilePath = GlobalContext.HostingEnvironment.ContentRootPath + filePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+
+            //定义一个空的列表
             List<T> list = new List<T>();
+            
             HSSFWorkbook hssfWorkbook = null;
             XSSFWorkbook xssWorkbook = null;
+            //第一个页表
             ISheet sheet = null;
+
+            //根据文件扩展名选择使用HSSFWorkbook或XSSFWorkbook来读取Excel文件
             using (FileStream file = new FileStream(absoluteFilePath, FileMode.Open, FileAccess.Read))
             {
                 switch (Path.GetExtension(filePath))
@@ -251,6 +258,8 @@ namespace Alfred.Util
                 }
             }
             IRow columnRow = sheet.GetRow(1); // 第二行为字段名
+
+            //遍历每一行的数据，创建一个实体对象，并通过映射字典将每一列的值设置到实体对象的属性中
             Dictionary<int, PropertyInfo> mapPropertyInfoDict = new Dictionary<int, PropertyInfo>();
             for (int j = 0; j < columnRow.LastCellNum; j++)
             {
@@ -326,8 +335,12 @@ namespace Alfred.Util
                         }
                     }
                 }
+
+                //将实体对象添加到列表中
                 list.Add(entity);
             }
+
+            //将实体对象添加到列表中,返回
             hssfWorkbook?.Close();
             xssWorkbook?.Close();
             return list;
@@ -340,6 +353,7 @@ namespace Alfred.Util
         /// <returns></returns>
         private PropertyInfo MapPropertyInfo(string columnName)
         {
+            //获取实体类的所有属性的信息
             PropertyInfo[] propertyList = ReflectionHelper.GetProperties(typeof(T));
             PropertyInfo propertyInfo = propertyList.Where(p => p.Name == columnName).FirstOrDefault();
             if (propertyInfo != null)
@@ -348,9 +362,13 @@ namespace Alfred.Util
             }
             else
             {
+                //遍历属性列表,匹配属性名和传入的列名是否相等,如果相等则返回该属性对象
                 foreach (PropertyInfo tempPropertyInfo in propertyList)
                 {
+                    //如果没有找到与传入列名相等的属性，遍历属性列表，获取每个属性上的DescriptionAttribute特性
                     DescriptionAttribute[] attributes = (DescriptionAttribute[])tempPropertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+                    //判断DescriptionAttribute特性的Description属性值是否与传入列名相等，如果相等则返回该属性对象
                     if (attributes.Length > 0)
                     {
                         if (attributes[0].Description == columnName)
@@ -360,6 +378,7 @@ namespace Alfred.Util
                     }
                 }
             }
+            //如果找不到与传入列名相匹配的属性，返回null
             return null;
         }
         #endregion

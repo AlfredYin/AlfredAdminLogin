@@ -32,10 +32,22 @@
                         <input id="endTime" col="EndTime" type="text" class="time-input" placeholder="结束时间" />
                     </li>
                     <li>
-                        <a id="btnSearch" class="btn btn-primary btn-sm" onclick="searchGrid()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                        <a id="btnSearch" class="btn btn-primary btn-sm" onclick="searchGrid()"><i class="fa fa-search"></i>&nbsp;计算</a>
                     </li>
                 </ul>
             </div>
+            <br/><br/><br />
+            <h3>选择计费方式(需量,容量),计算当月的总电费</h3>
+          <div class="form-group">
+              <ul>
+                <li>
+                    变压器容量：<input id="contentKVA" col="ContentKVA" type="text" />KVA
+                    </li></br>
+                <li>
+                    计费类型(容量/需量)：<span id="electType" col="ElectType"></span>
+                </li>
+              </ul>
+          </div>
         </div>
 
         <div class="col-sm-12 select-table table-bordered">
@@ -57,6 +69,8 @@
     });
 
     function initGrid() {
+
+        $("#electType").ysComboBox({ data: ys.getJson(@Html.Raw(typeof(ElectType).EnumToDictionaryString())) });
         
         var queryUrl = '@Url.Content("~/ElectChargesManage/ElectCharges/GetSumListJson")';
         $('#gridTable').ysTable({
@@ -71,7 +85,8 @@
                     { title: '尖峰', align: 'center', colspan: 3 },
                     { title: '波峰', align: 'center', colspan: 3 },
                     { title: '波谷', align: 'center', colspan: 3 },
-                    { title: '低谷', align: 'center', colspan: 4 },
+                    { title: '低谷', align: 'center', colspan: 3 },
+                    { title: '合计', align: 'center', colspan: 3 },
                 ],
                 //{ checkbox: true, visible: true },
                 [
@@ -103,6 +118,9 @@
                     { field: 'bottom_price', title: '低谷总电价' },
                     //电费
                     { field: 'bottom_charges', title: '低谷总电费' },
+
+                    //总电费
+                    { field: 'sum_charges' ,title : '总电费' },
                 ]
                 
             ],

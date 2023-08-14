@@ -59,8 +59,6 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
 
         #endregion
 
-       
-
         /// <summary>
         /// CalElectCharges的Index视图 --- 手动导入 ----------------- 这个首页视图
         /// </summary>
@@ -140,18 +138,18 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
             //使用Serivce进行处理
 
             //对excel进行处理
-            List<CountElectEntity> list = new ExcelHelper<CountElectEntity>().ImportFromExcel(param.FilePath);
+            List<ElectChargesEntity> list = new ExcelHelper<ElectChargesEntity>().ImportFromExcel(param.FilePath);
 
             //对列表进行处理
-            TData obj = electChargesBLL.CalElectCharges(list);
+            //TData obj = electChargesBLL.CalElectCharges(list);
 
-            charges = obj.Message;
+            //此处是数据存入数据库
+            TData obj = await electChargesBLL.ImportElectBySegment(list);
 
             return Json(obj);
         }
 
         #endregion
-
 
 
         #region JQuery 导入电量计算部分  ------------ 已经弃用,等以后再学前端更改这一部分

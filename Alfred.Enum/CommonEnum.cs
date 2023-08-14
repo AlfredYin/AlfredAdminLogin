@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace Alfred.Enum
 {
+    public enum ElectType
+    {
+        [Description("最大容量")]
+        MaxContext=1,
+
+        [Description("最大需量")]
+        MaxNeed = 2
+    }
     public enum StatusEnum
     {
         [Description("启用")]
