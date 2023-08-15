@@ -6,6 +6,7 @@ using Alfred.Model.Param.ElectChargesManage;
 using Alfred.Util;
 using Alfred.Util.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
 {
@@ -100,12 +101,14 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
             //使用Serivce进行处理
 
             //对excel进行处理
-            List<CountElectEntity> list = new ExcelHelper<CountElectEntity>().ImportFromExcel(param.FilePath);
+            List<CountElectEntity> hourElectList = new ExcelHelper<CountElectEntity>().ImportFromExcel(param.FilePath);
 
-            //对列表进行处理
-            TData obj = electChargesBLL.CalElectCharges(list);
+            List<ElectChargesEntity> segmentList = new List<ElectChargesEntity>();
+            //hourElectList 将 转换成为  SegmentList
+            segmentList = await electChargesBLL.HoursToSegment(hourElectList);
 
-            charges = obj.Message;
+            //此处是数据存入数据库
+            TData obj = await electChargesBLL.ImportElectBySegment(segmentList);
 
             return Json(obj);
         }
@@ -150,7 +153,6 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
         }
 
         #endregion
-
 
         #region JQuery 导入电量计算部分  ------------ 已经弃用,等以后再学前端更改这一部分
         //http://localhost:5000/CalElectChargesManage/CalElectCharges/CalElectChargesJQueryIndex

@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alfred.Entity", "..\Alfred.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Test", "06_Test", "{95FD2328-1D86-4439-8829-348772223CB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alfred.Business.Test", "..\Alfred.Business.Test\Alfred.Business.Test.csproj", "{6C4B514D-706A-421E-AB41-EBB8B86FEA10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alfred.Business.Test", "..\Alfred.Business.Test\Alfred.Business.Test.csproj", "{6C4B514D-706A-421E-AB41-EBB8B86FEA10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

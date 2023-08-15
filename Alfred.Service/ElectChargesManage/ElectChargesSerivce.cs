@@ -44,6 +44,7 @@ namespace Alfred.Service.ElectChargesManage
                                                          item.peak_price,
                                                          item.valley_price,
                                                          item.bottom_price,
+                                                         item.normal_price,
                                                          item.LoopId,
                                                      } into grp
                                                      select new ElectChargesEntity
@@ -57,6 +58,8 @@ namespace Alfred.Service.ElectChargesManage
                                                          valley_price = grp.Key.valley_price,
                                                          bottom_value = grp.Sum(x => x.bottom_value),
                                                          bottom_price = grp.Key.bottom_price,
+                                                         normal_value=grp.Sum(x => x.normal_value),
+                                                         normal_price=grp.Key.normal_price,
                                                          LoopId=grp.Key.LoopId
                                                      }).ToList();
 
@@ -71,6 +74,7 @@ namespace Alfred.Service.ElectChargesManage
                     peak_price = sumList.Last().peak_price,
                     valley_price = sumList.Last().valley_price,
                     bottom_price = sumList.Last().bottom_price,
+                    normal_price= sumList.Last().normal_price,
                 };
                 sumItem.LoopName = "回路合并";
                 sumItem.LoopId = -1;
@@ -79,6 +83,7 @@ namespace Alfred.Service.ElectChargesManage
                 double peakSum = 0.0;
                 double valleySum = 0.0;
                 double bottomSum = 0.0;
+                double normalSum=0.0;
 
                 foreach (var item in sumList)
                 {
@@ -86,12 +91,14 @@ namespace Alfred.Service.ElectChargesManage
                     peakSum = item.peak_value + peakSum;
                     valleySum = item.valley_value + valleySum;
                     bottomSum = item.bottom_value + bottomSum;
+                    normalSum= item.normal_value + normalSum;
                 }
 
                 sumItem.spike_value = spikeSum;
                 sumItem.peak_value = peakSum;
                 sumItem.valley_value = valleySum;
                 sumItem.bottom_value = bottomSum;
+                sumItem.normal_value = normalSum;
 
                 if (param.ElectType == 1)
                 {
@@ -126,7 +133,8 @@ namespace Alfred.Service.ElectChargesManage
                 row.peak_charges= Math.Round(row.peak_price * Convert.ToDouble(row.peak_value), 4);
                 row.valley_charges = Math.Round(row.valley_price * Convert.ToDouble(row.valley_value), 4);
                 row.bottom_charges = Math.Round(row.bottom_price * Convert.ToDouble(row.bottom_value), 4);
-                sum = sum + row.spike_charges+ row.peak_charges + row.valley_charges +row.bottom_charges;
+                row.normal_charges = Math.Round(row.normal_price * Convert.ToDouble(row.normal_value), 4);
+                sum = sum + row.spike_charges+ row.peak_charges + row.valley_charges +row.bottom_charges + row.normal_charges;
 
                 row.sum_charges= row.sum_charges+sum;
                 row.sum_charges=Math.Round(row.sum_charges,4);

@@ -11,12 +11,20 @@ namespace Alfred.Service.ElectChargesManage
     {
         public ElectChargesEntity SelectPeakValleyPrice(ElectChargesEntity entity,string province)
         {
+            //这里应当使用数据库中的山东电价
             if (province=="shangdong")
             {
-                entity.spike_price = 1.0161;
-                entity.peak_price = 0.8998;
-                entity.valley_price = 0.6089;
-                entity.bottom_price = 0.3180;
+                //entity.spike_price = 1.2863;
+                //entity.peak_price = 0.8998;
+                //entity.valley_price = 0.3658;
+                //entity.bottom_price = 0.3460;
+                //entity.normal_price = 0.7244;
+
+                entity.spike_price = 1;
+                entity.peak_price = 1;
+                entity.valley_price = 1;
+                entity.bottom_price = 1;
+                entity.normal_price = 1;
             }
             
             //其它省份
@@ -39,6 +47,10 @@ namespace Alfred.Service.ElectChargesManage
             if (entity.LoopName == "三号回路")
             {
                 entity.LoopId = 3;
+            }
+            else
+            {
+                entity.LoopId = -1;
             }
             return entity;
         }

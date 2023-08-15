@@ -118,5 +118,15 @@ namespace Alfred.Business.CalElectChargesManage
         }
 
         #endregion
+    
+        public async Task<List<ElectChargesEntity>> HoursToSegment(List<CountElectEntity> countElectEntities)
+        {
+            List<ElectChargesEntity> electChargesEntities = new List<ElectChargesEntity>();
+
+            electChargesEntities = await calElectChargesSerivce.HoursToSegment(countElectEntities);
+
+
+            return electChargesEntities;
+        }
     }
 }

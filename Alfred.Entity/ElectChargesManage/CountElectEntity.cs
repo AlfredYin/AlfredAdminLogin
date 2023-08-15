@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Alfred.Entity.CalElectChargesManage
 {
-    public class CountElectEntity
+    public class CountElectEntity : BaseExtensionEntity
     {
-        [Description("月份")]
-        public int Month { get; set; }
-        [Description("日期")]
-        public int Day { get; set; }
+        [Description("回路名称")]
+        public string LoopName { get; set; }
+
         [Description("0时")]
         public double time_00 { get; set; }
         [Description("1时")]

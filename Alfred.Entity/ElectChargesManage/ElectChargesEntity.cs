@@ -23,12 +23,17 @@ namespace Alfred.Entity.CalElectChargesManage
         public double valley_value { get; set; }
 
         [Description("低谷")]
-        public double bottom_value { get; set; }   
+        public double bottom_value { get; set; }
+
+        //修改,山东是有五段的
+        [Description("平时")]
+        public double normal_value { get; set; }
         
         public double spike_price { get; set; }
         public double peak_price { get; set; }
         public double valley_price { get; set; }
         public double bottom_price { get; set; }
+        public double normal_price { get; set; }
         public int LoopId { get; set; }
 
         //选择最大容量
@@ -49,6 +54,8 @@ namespace Alfred.Entity.CalElectChargesManage
         public double valley_charges { get; set; }
         [NotMapped]
         public double bottom_charges { get; set; }
+        [NotMapped]
+        public double normal_charges { get; set; }
 
         [Description("回路名称")]
         public string LoopName { get; set;}
