@@ -5,6 +5,9 @@ using Alfred.RedisCache;
 
 namespace Alfred.Cache.Factory
 {
+    /// <summary>
+    /// 缓存工厂  --- MemoryCache 或者 Redis 实现
+    /// </summary>
     public class CacheFactory
     {
         private static ICache cache = null;
@@ -22,6 +25,7 @@ namespace Alfred.Cache.Factory
                         {
                             switch (GlobalContext.SystemConfig.CacheProvider)
                             {
+                                //如果是Redis,使用ICache接口实现 RedisCache实现类
                                 case "Redis": cache = new RedisCacheImp(); break;
 
                                 default:

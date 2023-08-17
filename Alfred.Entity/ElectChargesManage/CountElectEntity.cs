@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Alfred.Entity.CalElectChargesManage
 {
+    /// <summary>
+    /// 这个并不是数据库里面的实体
+    /// 应该修改为模型
+    /// --- Alfred.Model.Result
+    /// </summary>
     public class CountElectEntity : BaseExtensionEntity
     {
         [Description("回路名称")]

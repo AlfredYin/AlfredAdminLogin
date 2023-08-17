@@ -14,17 +14,17 @@ namespace Alfred.Service.ElectChargesManage
             //这里应当使用数据库中的山东电价
             if (province=="shangdong")
             {
-                //entity.spike_price = 1.2863;
-                //entity.peak_price = 0.8998;
-                //entity.valley_price = 0.3658;
-                //entity.bottom_price = 0.3460;
-                //entity.normal_price = 0.7244;
+                entity.spike_price = 1.2863;
+                entity.peak_price = 0.8998;
+                entity.valley_price = 0.3658;
+                entity.bottom_price = 0.3460;
+                entity.normal_price = 0.7244;
 
-                entity.spike_price = 1;
-                entity.peak_price = 1;
-                entity.valley_price = 1;
-                entity.bottom_price = 1;
-                entity.normal_price = 1;
+                //entity.spike_price = 1;
+                //entity.peak_price = 1;
+                //entity.valley_price = 1;
+                //entity.bottom_price = 1;
+                //entity.normal_price = 1;
             }
             
             //其它省份

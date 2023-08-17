@@ -1,17 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>false</RazorCompileOnPublish>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="wwwroot\alfred\**" />
-    <Content Remove="wwwroot\alfred\**" />
-    <EmbeddedResource Remove="wwwroot\alfred\**" />
-    <None Remove="wwwroot\alfred\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Properties\launchSettings.json" />

@@ -11,7 +11,7 @@ namespace Alfred.Service.ElectChargesManage
     public class CalElectChargesSerivce
     {
         //电费价格
-        private double elect_price = 0.5520;
+        //private double elect_price = 0.5520;
 
         //每日电费和
         private double day_elect_sum = 0.0;

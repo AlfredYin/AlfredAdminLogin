@@ -63,6 +63,8 @@ namespace Alfred.RedisCache
                 {
                     return t;
                 }
+
+                // Deserializes the JSON to the specified .NET type.
                 t = JsonConvert.DeserializeObject<T>(value);
             }
             catch (Exception ex)

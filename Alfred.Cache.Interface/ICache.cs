@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Alfred.Cache.Interface
 {
+    /// <summary>
+    /// 缓存工厂的抽象接口
+    /// </summary>
     public interface ICache
     {
         bool SetCache<T>(string key, T value, DateTime? expireTime = null);

@@ -64,7 +64,13 @@ namespace Alfred.Admin.Web
                 // 返回数据首字母不小写，CamelCasePropertyNamesContractResolver是小写
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
+            
+            /////
 
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            
+            ////
+            
             //注册各种
             services.AddMemoryCache();
             services.AddSession();

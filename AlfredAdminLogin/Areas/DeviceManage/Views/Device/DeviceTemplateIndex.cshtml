@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<div class="container-div">
+    <div class="row">
+        <div id="searchDiv" class="col-sm-12 search-collapse">
+            <div class="select-list">
+                <ul>
+                    <li>
+                        模板名称：<input id="DeviceTemplateName" col="DeviceTemplateName" type="text" />
+                    </li>
+                    <li>
+                        标签：<input id="DeviceTemplateTitle" col="DeviceTemplateTitle" type="text" />
+                    </li>
+                    <li>
+                        <a id="btnSearch" class="btn btn-primary btn-sm" onclick="searchGrid()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group-sm" id="toolbar">
+                <h2>模板列表</h2>
+            </div>
+         </div>
+         <div class="col-sm-12 select-table table-striped">
+                <table id="gridTable" data-mobile-responsive="true"></table>
+         </div>
+     </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        initGrid();
+    });
+
+    function initGrid() {
+        var queryUrl = '@Url.Content("~/DeviceManage/Device/GetTemplateListJson")';
+        $('#gridTable').ysTable({
+            url: queryUrl,
+            sortName: 'GatewaySort',
+            sortOrder: 'Desc',
+            columns: [
+                { checkbox: true, visible: true },
+                { field: 'Id', title: 'Id', visible: false },
+                { field: 'DeviceTemplateName', title: '模板名称' },
+                { field: 'BelongOrganization', title: '所属组织' },
+                { field: 'VarCount', title: '变量总数' },
+                { field: 'DevicesCount', title: '关联设备数' },
+                { field: 'GetType', title: '采集方式' },
+                { field: 'BaseCreateTime', title: '创建时间' },
+                { field: 'BaseModifyTime', title: '更新时间' },
+                { field: "DeviceTemplateTitle", title: '标签' },
+
+            ],
+            queryParams: function (params) {
+                var pagination = $('#gridTable').ysTable('getPagination', params);
+                var queryString = $('#searchDiv').getWebControls(pagination);
+                return queryString;
+            }
+        })
+    }
+
+    function searchGrid() {
+        //alert("暂时因为参数未确定,未添加查询功能");
+        $('#gridTable').ysTable('search');
+        resetToolbarStatus();
+    }
+</script>

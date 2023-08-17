@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<div class="container-div">
+    <div class="row">
+        <div id="searchDiv" class="col-sm-12 search-collapse">
+            <div class="select-list">
+                <ul>
+                    <li>
+                        设备名称：<input id="DeviceName" col="DeviceName" type="text" />
+                    </li>
+                    <li>
+                        设备模板Id：<input id="DeviceTemplateId" col="DeviceTemplateId" type="text" />
+                    </li>
+                    <li>
+                        网关Id：<input id="GatewayId" col="GatewayId" type="text" />
+                    </li>
+                    <li>
+                        标签：<input id="DeviceTitle" col="DeviceTitle" type="text" />
+                    </li>
+                    <li>
+                        <a id="btnSearch" class="btn btn-primary btn-sm" onclick="searchGrid()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group-sm" id="toolbar">
+                <h2>设备列表</h2>
+            </div>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="gridTable" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        initGrid();
+    });
+
+    function initGrid() {
+        var queryUrl = '@Url.Content("~/DeviceManage/Device/GetListJson")';
+        $('#gridTable').ysTable({
+            url: queryUrl,
+            sortName: 'GatewaySort',
+            sortOrder: 'Desc',
+            columns: [
+                { checkbox: true, visible: true },
+                { field: 'Id', title: 'Id', visible: false },
+                {
+                    field: 'DeviceConnectingFlag', title: '连接状态',
+                    formatter: function (value) {
+                        return top.getDataDictValue('DeviceConnectingFlag', value + 1);
+                    }
+                },
+                { field: 'DeviceName', title: '设备名称' },
+                { field: 'DeviceTemplateId', title: '设备模板Id',visible: false },
+                { field: 'DeviceTemplateName', title: '设备模板' },
+                { field: 'GatewayId', title: '所属网关Id',visible:false },
+                { field: 'GatewayName', title: '所属网关' },
+                { field: 'BaseCreateTime', title: '第一次连接的时间' },
+                { field: 'BaseModifyTime', title: '最后一次连接的时间' },
+                { field: 'DeviceTitle',title:'标签'},
+                
+            ],
+            queryParams: function (params) {
+                var pagination = $('#gridTable').ysTable('getPagination', params);
+                var queryString = $('#searchDiv').getWebControls(pagination);
+                return queryString;
+            }
+        })
+    }
+
+    function searchGrid() {
+        //alert("暂时因为参数未确定,未添加查询功能");
+        $('#gridTable').ysTable('search');
+        resetToolbarStatus();
+    }
+</script>

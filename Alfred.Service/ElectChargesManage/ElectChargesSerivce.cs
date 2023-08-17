@@ -112,8 +112,6 @@ namespace Alfred.Service.ElectChargesManage
 
                 sumList.Add(sumItem);
             }
-            
-
             //返回returnlist
             return CalChargesByList(sumList.ToList());
         }
@@ -124,10 +122,11 @@ namespace Alfred.Service.ElectChargesManage
         public List<ElectChargesEntity> CalChargesByList(List<ElectChargesEntity> list)
         {
 
-            double sum = 0.0;
+            
 
             foreach(var row in list)
             {
+                double sum = 0.0;
                 //保留四位小数
                 row.spike_charges = Math.Round(row.spike_price * Convert.ToDouble(row.spike_value), 4);
                 row.peak_charges= Math.Round(row.peak_price * Convert.ToDouble(row.peak_value), 4);
