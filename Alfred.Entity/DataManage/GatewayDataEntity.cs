@@ -19,6 +19,7 @@ namespace Alfred.Entity.GatewayDataManage
         public string DataValue { get; set; }
         public DateTime DataAcqTime { get; set; }
         public string DataUnit { get; set; }    
+        public int GatewayTypeId { get; set; }
         public int SlaveId { get; set; }
     }
 }

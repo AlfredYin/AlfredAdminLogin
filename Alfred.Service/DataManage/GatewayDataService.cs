@@ -31,6 +31,32 @@ namespace Alfred.Service.GatewayDataManage
             var expression = LinqExtensions.True<GatewayDataEntity>();
             if (param != null)
             {
+                //Id
+                if (param.Id != 0)
+                {
+                    expression=expression.And(t=>t.GatewayTypeId==param.Id);
+                }
+                //网关名称
+                if (!string.IsNullOrEmpty(param.GatewayName))
+                {
+                    expression = expression.And(t => t.GatewayName.Contains(param.GatewayName));
+                }
+                //模板名称
+                if (!string.IsNullOrEmpty(param.DataTypeName))
+                {
+                    expression=expression.And(t=>t.DataTypeName.Contains(param.DataTypeName));
+                }
+                //开始时间
+                if (!string.IsNullOrEmpty(param.StartTime.ParseToString()))
+                {
+                    expression = expression.And(t => t.DataAcqTime >= param.StartTime);
+                }
+                //结束时间
+                if (!string.IsNullOrEmpty(param.EndTime.ParseToString()))
+                {
+                    param.EndTime = param.EndTime.Value.Date.Add(new TimeSpan(23, 59, 59));
+                    expression = expression.And(t => t.DataAcqTime <= param.EndTime);
+                }
             }
             return expression;
         }
