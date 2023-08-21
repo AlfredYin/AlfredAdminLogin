@@ -159,8 +159,8 @@ namespace Alfred.Service.ElectChargesManage
                 entity.BaseVersion= 1;
 
                 //省份是山东
-                ElectChargesSelectPeakValleyPrice electChargesSelectPeakValleyPrice=new ElectChargesSelectPeakValleyPrice();
-                entity=electChargesSelectPeakValleyPrice.SelectPeakValleyPrice(entity,"shangdong");
+                ElectPriceSerive electChargesSelectPeakValleyPrice=new ElectPriceSerive();
+                entity=await electChargesSelectPeakValleyPrice.SelectPeakValleyPrice(entity,"山东");
 
                 //回路Id
                 entity = electChargesSelectPeakValleyPrice.SelectLoopId(entity);

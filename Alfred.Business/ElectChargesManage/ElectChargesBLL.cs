@@ -1,4 +1,5 @@
 ﻿using Alfred.Entity.CalElectChargesManage;
+using Alfred.Entity.ElectChargesManage;
 using Alfred.Model.Param;
 using Alfred.Model.Param.ElectChargesManage;
 using Alfred.Service.ElectChargesManage;
@@ -15,6 +16,7 @@ namespace Alfred.Business.CalElectChargesManage
     {
         private CalElectChargesSerivce calElectChargesSerivce = new CalElectChargesSerivce();
         private ElectChargesSerivce electChargesSerivce=new ElectChargesSerivce();
+        private ElectPriceSerive electPriceSerive=new ElectPriceSerive();
 
         #region 获取数据库历史电量电费
 
@@ -118,7 +120,29 @@ namespace Alfred.Business.CalElectChargesManage
         }
 
         #endregion
-    
+
+        #region 获取电价信息
+
+        public async Task<TData<List<ElectPriceEntity>>> GetPriceList()
+        {
+            TData<List<ElectPriceEntity>> obj=new TData<List<ElectPriceEntity>>();
+            obj.Data = await electPriceSerive.GetPriceList(); 
+            obj.Tag= 1;
+            return obj;
+        }
+
+        //提交Form电价
+        public async Task<TData<string>> SaveForm(ElectPriceEntity entity)
+        {
+            TData<string> obj = new TData<string>();
+            await electPriceSerive.SaveForm(entity);
+            obj.Data = "Abc";
+            obj.Tag = 1;
+            return obj;
+        }
+
+        #endregion
+
         public async Task<List<ElectChargesEntity>> HoursToSegment(List<CountElectEntity> countElectEntities)
         {
             List<ElectChargesEntity> electChargesEntities = new List<ElectChargesEntity>();

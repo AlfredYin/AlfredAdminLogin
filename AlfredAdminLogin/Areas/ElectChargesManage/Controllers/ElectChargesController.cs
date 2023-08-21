@@ -1,6 +1,7 @@
 ﻿using Alfred.Admin.Web.Controllers;
 using Alfred.Business.CalElectChargesManage;
 using Alfred.Entity.CalElectChargesManage;
+using Alfred.Entity.ElectChargesManage;
 using Alfred.Model.Param;
 using Alfred.Model.Param.ElectChargesManage;
 using Alfred.Util;
@@ -8,6 +9,7 @@ using Alfred.Util.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Alfred.Web.Code;
 
 namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
 {
@@ -71,6 +73,41 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
         {
             return View();
         }
+
+        #region 获取和设置山东地区的电价
+        [HttpGet]
+        [AuthorizeFilter()]
+        public IActionResult PriceIndex()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AuthorizeFilter()]
+        public async Task<IActionResult> GetPriceListJson()
+        {
+            TData<List<ElectPriceEntity>> obj = await electChargesBLL.GetPriceList();
+            return Json(obj);
+        }
+
+        [HttpGet]
+        [AuthorizeFilter()]
+        public async Task<IActionResult> PriceForm(string province)
+        {
+            ViewBag.OperatorInfo = await Operator.Instance.Current();
+
+            return View();
+        }
+
+        [HttpPost]
+        [AuthorizeFilter()]
+        public async Task<IActionResult> SavePriceFormJson(ElectPriceEntity electPriceEntity)
+        {
+            TData<string> obj = await electChargesBLL.SaveForm(electPriceEntity);
+            return Json(obj);
+        }
+
+        #endregion
 
         #region 手动导入电量部分 主视图
 
