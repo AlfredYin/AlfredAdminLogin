@@ -19,10 +19,10 @@ namespace Alfred.Entity.CalElectChargesManage
         [Description("波峰")]
         public double peak_value { get; set; }
 
-        [Description("波谷")]
+        [Description("低谷")]
         public double valley_value { get; set; }
 
-        [Description("低谷")]
+        [Description("深谷")]
         public double bottom_value { get; set; }
 
         //修改,山东是有五段的

@@ -209,6 +209,11 @@ namespace Alfred.Service.ElectChargesManage
 
             return expression;
         }
+
+        public async Task DeleteAll()
+        {
+            await BaseRepository().Delete<ElectChargesEntity>();
+        }
         #endregion
     }
 }

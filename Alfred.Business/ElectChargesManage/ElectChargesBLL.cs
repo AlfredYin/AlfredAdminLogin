@@ -1,8 +1,11 @@
 ﻿using Alfred.Entity.CalElectChargesManage;
 using Alfred.Entity.ElectChargesManage;
+using Alfred.Entity.OrganizationManage;
 using Alfred.Model.Param;
 using Alfred.Model.Param.ElectChargesManage;
 using Alfred.Service.ElectChargesManage;
+using Alfred.Service.OrganizationManage;
+using Alfred.Util.Extension;
 using Alfred.Util.Model;
 using System;
 using System.Collections.Generic;
@@ -32,6 +35,15 @@ namespace Alfred.Business.CalElectChargesManage
         //
         //
 
+        //删除历史数据
+        public async Task<TData> DeleteAll()
+        {
+            TData obj = new TData();
+            await electChargesSerivce.DeleteAll();
+            obj.Tag = 1;
+            return obj;
+        }
+
         #endregion
 
         #region 获取历史电费之和数据
@@ -44,7 +56,6 @@ namespace Alfred.Business.CalElectChargesManage
         }
 
         #endregion
-
 
         #region 手动导入 每小时电量数据,并计算总电费
 
@@ -131,16 +142,34 @@ namespace Alfred.Business.CalElectChargesManage
             return obj;
         }
 
-        //提交Form电价
+        //提交Form电价 加入
         public async Task<TData<string>> SaveForm(ElectPriceEntity entity)
         {
             TData<string> obj = new TData<string>();
+
+            if (electPriceSerive.ExistProvince(entity))
+            {
+                await electPriceSerive.UpdateForm(entity);
+                obj.Data = entity.Id.ParseToString();
+                obj.Tag = 1;
+                return obj;
+            }
+
             await electPriceSerive.SaveForm(entity);
-            obj.Data = "Abc";
+            obj.Data = entity.Id.ParseToString();
             obj.Tag = 1;
             return obj;
         }
 
+        //更新修改
+        //public async Task<TData> UpdatePrice(ElectPriceEntity entity)
+        //{
+        //    TData obj= new TData();
+        //    await electPriceSerive.SaveForm(entity);
+
+        //    obj.Tag = 1;
+        //    return obj;
+        //}
         #endregion
 
         public async Task<List<ElectChargesEntity>> HoursToSegment(List<CountElectEntity> countElectEntities)

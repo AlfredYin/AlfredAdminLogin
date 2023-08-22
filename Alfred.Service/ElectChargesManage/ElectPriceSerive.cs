@@ -1,6 +1,8 @@
 ﻿using Alfred.Data.Repository;
 using Alfred.Entity.CalElectChargesManage;
 using Alfred.Entity.ElectChargesManage;
+using Alfred.Entity.OrganizationManage;
+using Alfred.Util;
 using Alfred.Util.Extension;
 using System;
 using System.Collections.Generic;
@@ -74,7 +76,7 @@ namespace Alfred.Service.ElectChargesManage
             }
             else
             {
-                entity.LoopId = -1;
+                entity.LoopId = -1; 
             }
             return entity;
         }
@@ -83,15 +85,62 @@ namespace Alfred.Service.ElectChargesManage
         public async Task<List<ElectPriceEntity>> GetPriceList()
         {
             var expression = LinqExtensions.True<ElectPriceEntity>();
-            expression = expression.And(t => t.Province == "山东");
+            //expression = expression.And(t => t.Province == "山东");
             var priceEntities = await this.BaseRepository().FindList(expression);
 
             return priceEntities.ToList();
         }
 
-        public Task SaveForm(ElectPriceEntity entity)
+        //保存表单
+        public async Task SaveForm(ElectPriceEntity entity)
         {
-            throw new NotImplementedException();
+            //if (entity.Id.IsNullOrZero())
+            //{
+                long? id = entity.Id;
+                await entity.Create();
+                entity.Id = id;
+                await this.BaseRepository().Insert<ElectPriceEntity>(entity);   
+            //}
+            //else
+            //{
+            //    try
+            //    {
+            //        await entity.Modify();
+            //        await this.BaseRepository().Update<ElectPriceEntity>(entity);
+            //    }
+            //   catch(Exception ex)
+            //    {
+            //        ;
+            //    }
+            //}
         }
+
+        //更改表单
+        public async Task UpdateForm(ElectPriceEntity entity)
+        {
+            long? id = entity.Id;
+            await entity.Modify();
+            await this.BaseRepository().Update<ElectPriceEntity>(entity);
+        }
+
+        //判断是否存在用户名(省份)
+        public bool ExistProvince(ElectPriceEntity entity)
+        {
+            var expression = LinqExtensions.True<ElectPriceEntity>();
+            expression = expression.And(t => t.BaseIsDelete == 0);
+            if (entity.Id.IsNullOrZero())
+            {
+                expression=expression.And(t=>t.Province== entity.Province); 
+            }
+            else
+            {
+                expression=expression.And(t=>t.Province== entity.Province && t.Id == entity.Id);
+            }
+
+            int a = this.BaseRepository().IQueryable(expression).Count();
+
+            return this.BaseRepository().IQueryable(expression).Count() > 0 ? true : false;
+        }
+
     }
 }

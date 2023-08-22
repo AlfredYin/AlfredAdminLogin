@@ -34,6 +34,9 @@
                     <li>
                         <a id="btnSearch" class="btn btn-primary btn-sm" onclick="searchGrid()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                     </li>
+                    <li>
+                        <a id="btnDeleteAll" class="btn btn-primary btn-sm" onclick="deleteAll()">删除历史数据</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -106,8 +109,8 @@
                     { title: '当日详情', align: 'center', colspan: 2 },
                     { title: '尖峰', align: 'center', colspan: 3 },
                     { title: '波峰', align: 'center', colspan: 3 },
-                    { title: '波谷', align: 'center', colspan: 3 },
                     { title: '低谷', align: 'center', colspan: 3 },
+                    { title: '深谷', align: 'center', colspan: 3 },
                     { title: '平段', align: 'center', colspan: 4 },
                 ],
                 //{ checkbox: true, visible: true },
@@ -131,15 +134,15 @@
                     //电费
                     { field: 'peak_charges', title: '波峰电费' },
 
-                    { field: 'valley_value', title: '波谷电量' },
-                    { field: 'valley_price', title: '波谷电价' },
+                    { field: 'valley_value', title: '低谷电量' },
+                    { field: 'valley_price', title: '低谷电价' },
                     //电费
-                    { field: 'valley_charges', title: '波谷电费' },
+                    { field: 'valley_charges', title: '低谷电费' },
 
-                    { field: 'bottom_value', title: '低谷电量' },
-                    { field: 'bottom_price', title: '低谷电价' },
+                    { field: 'bottom_value', title: '深谷电量' },
+                    { field: 'bottom_price', title: '深谷电价' },
                     //电费
-                    { field: 'bottom_charges', title: '低谷电费' },
+                    { field: 'bottom_charges', title: '深谷电费' },
 
                     { field: 'normal_value', title: '平段电量' },
                     { field: 'normal_price', title: '平段电价' },
@@ -201,28 +204,49 @@
     //    });
     //}
 
-    //function deleteForm() {
-    //    var selectedRow = $("#gridTable").bootstrapTable("getSelections");
-    //    if (ys.checkRowDelete(selectedRow)) {
-    //        ys.confirm("确认要删除选中的" + selectedRow.length + "条数据吗？", function () {
-    //            var ids = ys.getIds(selectedRow);
-    //            ys.ajax({
-    //                url: '@Url.Content("~/OrganizationManage/User/DeleteFormJson")' + '?ids=' + ids,
-    //                type: "post",
-    //                error: ys.ajaxError,
-    //                success: function (obj) {
-    //                    if (obj.Tag == 1) {
-    //                        ys.msgSuccess(obj.Message);
-    //                        searchGrid();
-    //                    }
-    //                    else {
-    //                        ys.msgError(obj.Message);
-    //                    }
-    //                }
-    //            });
-    //        });
-    //    }
-    //}
+    function deleteAll() {
+
+        
+        ys.confirm(
+            "确定删除所有数据?",
+            function(){
+                ys.ajax({
+                    url: '@Url.Content("~/ElectChargesManage/ElectCharges/DeleteAllJson")',
+                    type: "get",
+                    error: ys.ajaxError,
+                    success: function (obj) {
+                        if (obj.Tag == 1) {
+                            ys.msgSuccess(obj.Message);
+                            searchGrid();
+                        }
+                        else {
+                            ys.msgError(obj.Message);
+                        }
+                    }
+                });
+            }
+        );
+        
+        //if (ys.checkRowDelete(selectedRow)) {
+        //    ys.confirm("确认要删除选中的" + selectedRow.length + "条数据吗？", function () {
+        //        var ids = ys.getIds(selectedRow);
+        //        ys.ajax({
+        //            url: '@Url.Content("~/OrganizationManage/User/DeleteFormJson")' + '?ids=' + ids,
+        //            type: "post",
+        //            error: ys.ajaxError,
+        //            success: function (obj) {
+        //                if (obj.Tag == 1) {
+        //                    ys.msgSuccess(obj.Message);
+        //                    searchGrid();
+        //                }
+        //                else {
+        //                    ys.msgError(obj.Message);
+        //                }
+        //            }
+        //        });
+        //    });
+        //}
+    }
 
     //function showDepartmentForm() {
     //    var url = '@Url.Content("~/OrganizationManage/Department/DepartmentIndex")';

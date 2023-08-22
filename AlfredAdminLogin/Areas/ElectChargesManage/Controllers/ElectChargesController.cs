@@ -124,7 +124,7 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
 
         #endregion
 
-        #region 导入24 小时数据部分  ElectImport form表单 和 解析Excel导入数据库数据部分   ---------  暂时不导入数据库,因为不知道 怎么从小时
+        #region 导入24 小时数据部分  ElectImport form表单 和 解析Excel导入数据库数据部分 
 
         /// <summary>
         /// 处理上传的Excel并解析 24各个小时电量
@@ -151,9 +151,16 @@ namespace AlfredAdminLogin.Areas.CalElectChargesManage.Controllers
             return Json(obj);
         }
 
+        //删除所有的 电费电量信息
+        [HttpGet]
+        public async Task<IActionResult> DeleteAllJson()
+        {
+            TData obj= await electChargesBLL.DeleteAll();
+            return Json(obj);
+        }
         #endregion
 
-        #region 导入峰尖峰谷低谷四段电量模板  ElectImportBySegment form表单 和 解析Excel导入数据库数据 BySegment部分
+        #region 导入峰尖峰谷深谷四段电量模板  ElectImportBySegment form表单 和 解析Excel导入数据库数据 BySegment部分
 
         /// <summary>
         /// 转到导入的视图,CalElectCharges的Index视图
